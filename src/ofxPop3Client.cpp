@@ -38,6 +38,8 @@ void ofxPop3ClientUtils::threadedFunction(){
 
     // loop through this process whilst thread running
     while( isThreadRunning() == true ){
+		if(lock())
+		{
     	if(accounts.size()>0){
     		int totalNumMessages=0;
 			ofxMailAccount account = accounts.front();
@@ -51,6 +53,8 @@ void ofxPop3ClientUtils::threadedFunction(){
 
     	}
 		ofSleepMillis(checkInterval*1000);
+		unlock();
+		}
     }
 
 }

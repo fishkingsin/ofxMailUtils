@@ -3,19 +3,20 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	ofAddListener(pop3.newMessageEvent,this,&testApp::newMessage);
+	//ofAddListener(pop3.newMessageEvent,this,&testApp::newMessage);
 
 	ofxMailAccount account;
 	account.accountId=0;
-	account.accountName="account_name"; // this is just to show the name of the account where the message arrive
-	account.user="user@mail.com";		// login to your mail account
-	account.password="passwd";			// password of your mail account
-	account.host="mail.server.com";		// pop3 server
-	// account.port=110; // by default
-
-	pop3.addAccount(account);
+	account.accountName="account name"; // this is just to show the name of the account where the message arrive
+	account.user="user name";		// login to your mail account
+	account.password="password";			// password of your mail account
+	account.host="host";		// pop3 server
+	account.port=1199; // by default
+	 
+	pop3.addAccount(account);	
 	pop3.setCheckInterval(20);
 	pop3.start();
+	 
 }
 
 //--------------------------------------------------------------
@@ -32,14 +33,21 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
+	if(key!=27)
+	{
 	ofxMailMessage message;
-	message.recipients.push_back("mail@server.com");
-	message.sender="me@mail.com";
+	message.recipients.push_back("recipients");
+	message.sender="sender";
 	message.subject="subject of the message";
+	message.content = "Hello World";
+	message.attachmentPaths.push_back( "image1.png");
 	message.date=Poco::Timestamp();
-	smtp.addMessage(message);
+	ofxSmtpClientUtils smtp ("127.0.0.1",1199,"account","password");
+//	smtp.addMessage(message);
+	smtp.sendMessage(message);
 	cout << "testApp::keyPressed: new message sent\n";
-
+	
+	}
 }
 
 //--------------------------------------------------------------

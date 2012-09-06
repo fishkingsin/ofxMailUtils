@@ -9,7 +9,7 @@
 
 #include "ofMain.h"
 
-#include "ofxThread.h"
+#include "ofThread.h"
 
 
 
@@ -113,7 +113,7 @@ struct ofxMailAccount{
 	vector<int> alreadyReaded;
 };
 
-class ofxPop3ClientUtils : public ofxThread{
+class ofxPop3ClientUtils : public ofThread{
 
 	public:
 
@@ -152,16 +152,17 @@ class ofxPop3ClientUtils : public ofxThread{
 };
 
 
-class ofxSmtpClientUtils:public ofxThread{
+class ofxSmtpClientUtils{
 public:
 
-	ofxSmtpClientUtils();
+	ofxSmtpClientUtils(string host = OFX_SMTP_HOST,int port = OFX_SMTP_PORT);
+	ofxSmtpClientUtils(string host = OFX_SMTP_HOST, int port = OFX_SMTP_PORT, string username="",string password="");
 	~ofxSmtpClientUtils();
 
 
 	//-------------------------------
 	// non blocking functions
-	void addMessage(ofxMailMessage message);
+	//void addMessage(ofxMailMessage message);
 
 	//-------------------------------
 	// blocking functions
@@ -170,11 +171,11 @@ public:
 
 	//-------------------------------
 	// threading stuff
-	void threadedFunction();
-	void start();
-	void stop();
+	//void threadedFunction();
+	//void start();
+	//void stop();
 protected:
-	queue <ofxMailMessage> messages;
+	//queue <ofxMailMessage> messages;
 	bool verbose;
 	bool connected;
 	SMTPClientSession * session;
